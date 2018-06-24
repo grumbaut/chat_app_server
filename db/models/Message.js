@@ -1,6 +1,5 @@
 const conn = require('../conn');
 const { Sequelize } = conn;
-const { Op } = Sequelize;
 
 const Message = conn.define('message', {
   text: Sequelize.STRING,
@@ -12,7 +11,7 @@ const Message = conn.define('message', {
   }
 });
 
-Message.createMessage = (text, sender, receiverId) => {
+Message.createMessage = (text, sender, receiver) => {
   return Promise.all([
     Message.create({
       text,
@@ -21,7 +20,7 @@ Message.createMessage = (text, sender, receiverId) => {
         name: sender.name
       }
     }),
-    conn.models.conversation.findOrCreateConversation(sender.id, receiverId)
+    conn.models.conversation.findOrCreateConversation(sender.id, receiver.id)
   ])
     .then(([message, conversation]) => message.setConversation(conversation));
 };
