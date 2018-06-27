@@ -1,10 +1,10 @@
 const server = require('http').createServer().listen(3000);
 const conn = require('./db').conn;
+const { Op } = conn.Sequelize;
 const io = require('socket.io')(server);
 const { User, Conversation, Message } = require('./db').models;
-const mobileSockets = {};
-
 conn.sync({ logging: false, force: true });
+const mobileSockets = {};
 
 io.on('connection', socket => {
   socket.on('newUser', credentials => {
@@ -19,6 +19,9 @@ io.on('connection', socket => {
       User.findAll()
     ])
       .then(([user, users]) => {
+        if(!users) {
+          users = [];
+        }
         mobileSockets[user[0].id] = socket.id;
         socket.emit('userCreated', { user: user[0], users });
         socket.broadcast.emit('newUser', user[0]);

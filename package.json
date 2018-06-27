@@ -2,7 +2,7 @@
   "name": "chat-app-server",
   "version": "1.0.0",
   "description": "",
-  "main": "webpack.config.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
@@ -13,7 +13,6 @@
   "dependencies": {
     "pg": "^7.4.3",
     "sequelize": "^4.37.10",
-    "socket.io": "^2.1.1",
-    "webpack": "^4.12.0"
+    "socket.io": "^2.1.1"
   }
 }

@@ -7,18 +7,7 @@ const Conversation = conn.define('conversation', {
 });
 
 Conversation.findOrCreateConversation = function(user1Id, user2Id) {
-  return Conversation.find({
-    where: {
-      user1Id: {
-        [Op.or]: [user1Id, user2Id]
-      },
-      user2Id: {
-        [Op.or]: [user1Id, user2Id]
-      }
-    },
-    include: [ conn.models.message ],
-    order: [[ conn.models.message, 'createdAt', 'DESC' ]]
-  })
+  return Conversation.find()
     .then(conversation => {
       if(conversation) {
         return conversation;
